@@ -30,7 +30,8 @@ func TestIndex(t *testing.T) {
 	m["order"] = m1
 	context.SetVariables(m)
 	parser := SpelExpressionParser{}
-	valueContext := parser.ParseExpression("#order.code[0].name=='lisi'").GetValueContext(&context)
+	expressionString := "#order.code[0].name=='lisi'"
+	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 	fmt.Println("结果为：", valueContext)
 }
 
@@ -48,7 +49,8 @@ func TestCompound(t *testing.T) {
 	m["order"] = m1
 	context.SetVariables(m)
 	parser := SpelExpressionParser{}
-	valueContext := parser.ParseExpression("#order.code.num==12").GetValueContext(&context)
+	expressionString := "#order.code.num==12"
+	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 	fmt.Println("结果为：", valueContext)
 }
 
@@ -60,7 +62,9 @@ func TestEQ(t *testing.T) {
 	m["age"] = 18
 	context.SetVariables(m)
 	parser := SpelExpressionParser{}
-	valueContext := parser.ParseExpression("#name=='lisi'").GetValueContext(&context)
+	expressionString := "#name=='lisi'"
+	//expressionString := "#name" //返回lisi
+	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 	fmt.Println("结果为：", valueContext)
 }
 
@@ -72,7 +76,8 @@ func TestAnd(t *testing.T) {
 	m["age"] = 18
 	context.SetVariables(m)
 	parser := SpelExpressionParser{}
-	valueContext := parser.ParseExpression("#name=='lisi' && #age>=3").GetValueContext(&context)
+	expressionString := "#name=='lisi' && #age>=3"
+	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 	fmt.Println("结果为：", valueContext)
 }
 
@@ -84,7 +89,8 @@ func TestGT(t *testing.T) {
 	m["age"] = 18
 	context.SetVariables(m)
 	parser := SpelExpressionParser{}
-	valueContext := parser.ParseExpression("#age>=10").GetValueContext(&context)
+	expressionString := "#age>=10"
+	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 	fmt.Println("结果为：", valueContext)
 }
 
@@ -97,6 +103,7 @@ func TestFloat(t *testing.T) {
 	m["num"] = ageFloat
 	context.SetVariables(m)
 	parser := SpelExpressionParser{}
-	valueContext := parser.ParseExpression("#num>=9f").GetValueContext(&context)
+	expressionString := "#num>=9f"
+	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 	fmt.Println("结果为：", valueContext)
 }
