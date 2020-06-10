@@ -108,3 +108,16 @@ float64比较
     valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 ```
 
+ - 字符串下标判断提取
+
+```go
+    context := spel.StandardEvaluationContext{}
+    context.AddPropertyAccessor(spel.MapAccessor{})
+    m := make(map[string]interface{})
+    m["name"] = "lisi"
+    m["age"] = 18
+    context.SetVariables(m)
+    parser := SpelExpressionParser{}
+    expressionString := "#name[2]=='i'"
+    valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
+```

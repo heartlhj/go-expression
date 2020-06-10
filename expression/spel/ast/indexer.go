@@ -44,7 +44,10 @@ func (this Indexer) GetValueRef(state ExpressionState) ValueRef {
 		this.indexedType = kind
 		index, _ := index.(int)
 		return ArrayIndexingValueRef{Array: target, Index: index, TypeDescriptor: targetDescriptor}
-
+	} else if kind == reflect.String {
+		this.indexedType = kind
+		index, _ := index.(int)
+		return StringIndexingLValue{Target: target, Index: index, TypeDescriptor: targetDescriptor}
 	}
 	return nil
 }
@@ -69,5 +72,23 @@ func (this ArrayIndexingValueRef) GetValue() TypedValue {
 	arry := reflect.ValueOf(this.Array)
 	//获取下标为Index的数据
 	value := arry.Index(this.Index)
+	return TypedValue{Value: value}
+}
+
+type StringIndexingLValue struct {
+	Target interface{}
+
+	Index int
+
+	TypeDescriptor TypeDescriptor
+}
+
+func (this StringIndexingLValue) GetValue() TypedValue {
+	target, _ := this.Target.(string)
+	if this.Index >= len(target) {
+		panic("The index is invalid")
+	}
+	//获取下标为Index的数据
+	value := string(target[this.Index])
 	return TypedValue{Value: value}
 }

@@ -12,6 +12,20 @@ type Order struct {
 	age  int
 }
 
+//测试字符串下标
+func TestStringIndex(t *testing.T) {
+	context := spel.StandardEvaluationContext{}
+	context.AddPropertyAccessor(spel.MapAccessor{})
+	m := make(map[string]interface{})
+	m["name"] = "lisi"
+	m["age"] = 18
+	context.SetVariables(m)
+	parser := SpelExpressionParser{}
+	expressionString := "#name[2]=='i'"
+	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
+	fmt.Println("结果为：", valueContext)
+}
+
 //测试数组
 func TestIndex(t *testing.T) {
 	context := spel.StandardEvaluationContext{}
