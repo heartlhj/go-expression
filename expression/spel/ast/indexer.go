@@ -71,6 +71,10 @@ type ArrayIndexingValueRef struct {
 func (this ArrayIndexingValueRef) GetValue() TypedValue {
 	arry := reflect.ValueOf(this.Array)
 	//获取下标为Index的数据
+	len := arry.Len()
+	if this.Index >= len {
+		panic("The index is invalid")
+	}
 	value := arry.Index(this.Index)
 	return TypedValue{Value: value}
 }
