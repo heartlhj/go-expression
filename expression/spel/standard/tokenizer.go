@@ -25,11 +25,26 @@ type Tokenizer struct {
 
 func (t *Tokenizer) InitTokenizer() {
 	t.initFlags()
-	expressionString := t.ExpressionString
+	expressionString := t.initExpression(t.ExpressionString)
 	runes := []rune(expressionString)
 	t.charsToProcess = runes
 	t.max = len(t.charsToProcess)
 	t.pos = 0
+}
+
+func (t *Tokenizer) initExpression(expressionString string) string {
+	ok := strings.Contains(expressionString, "{")
+	if ok {
+		left := strings.Contains(expressionString, "}")
+		if !left {
+			panic("Missing closing '}'")
+		}
+		index := strings.LastIndex(expressionString, "}")
+		if index == (len(expressionString) - 1) {
+			return expressionString[0:index]
+		}
+	}
+	return expressionString
 }
 
 func (t *Tokenizer) initFlags() {
@@ -109,10 +124,14 @@ func (t *Tokenizer) Process() []Token {
 				t.pushCharToken(TokenKind{TokenKindType: RSQUARE, TokenChars: []rune(RSQUARE), HasPayload: len([]rune(RSQUARE)) == 0})
 				break
 			case "{":
-				t.pushCharToken(TokenKind{TokenKindType: LCURLY, TokenChars: []rune(LCURLY), HasPayload: len([]rune(LCURLY)) == 0})
+				//t.pushCharToken(TokenKind{TokenKindType: LCURLY, TokenChars: []rune(LCURLY), HasPayload: len([]rune(LCURLY)) == 0})
+				//break
+				t.pos++
 				break
 			case "}":
-				t.pushCharToken(TokenKind{TokenKindType: RCURLY, TokenChars: []rune(RCURLY), HasPayload: len([]rune(RCURLY)) == 0})
+				//t.pushCharToken(TokenKind{TokenKindType: RCURLY, TokenChars: []rune(RCURLY), HasPayload: len([]rune(RCURLY)) == 0})
+				//break
+				t.pos++
 				break
 			case "@":
 				t.pushCharToken(TokenKind{TokenKindType: BEAN_REF, TokenChars: []rune(BEAN_REF), HasPayload: len([]rune(BEAN_REF)) == 0})
@@ -147,11 +166,14 @@ func (t *Tokenizer) Process() []Token {
 				t.pushPairToken(TokenKind{TokenKindType: SYMBOLIC_OR, TokenChars: []rune(SYMBOLIC_OR), HasPayload: len([]rune(SYMBOLIC_OR)) == 0})
 				break
 			case "$":
-				if t.isTwoCharToken(TokenKind{TokenKindType: SELECT_LAST, TokenChars: []rune(SELECT_LAST), HasPayload: len([]rune(SELECT_LAST)) == 0}) {
-					t.pushPairToken(TokenKind{TokenKindType: SELECT_LAST, TokenChars: []rune(SELECT_LAST), HasPayload: len([]rune(SELECT_LAST)) == 0})
-				} else {
-					t.lexIdentifier()
-				}
+				//if t.isTwoCharToken(TokenKind{TokenKindType: SELECT_LAST, TokenChars: []rune(SELECT_LAST), HasPayload: len([]rune(SELECT_LAST)) == 0}) {
+				//	t.pushPairToken(TokenKind{TokenKindType: SELECT_LAST, TokenChars: []rune(SELECT_LAST), HasPayload: len([]rune(SELECT_LAST)) == 0})
+				//} else {
+				//	t.lexIdentifier()
+				//}
+				//break
+				//支持以# ，$开头
+				t.pushCharToken(TokenKind{TokenKindType: HASH, TokenChars: []rune(HASH), HasPayload: len([]rune(HASH)) == 0})
 				break
 			case ">":
 				if t.isTwoCharToken(TokenKind{TokenKindType: GE, TokenChars: []rune(GE), HasPayload: len([]rune(GE)) == 0}) {

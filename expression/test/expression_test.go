@@ -27,7 +27,7 @@ func TestStringIndex(t *testing.T) {
 	m["name"] = "lisi"
 	m["age"] = 18
 	context.SetVariables(m)
-	expressionString := "#name[2]=='s'"
+	expressionString := "${name[2]=='s'}"
 	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 	fmt.Println("结果为：", valueContext)
 }
@@ -47,7 +47,7 @@ func TestIndex(t *testing.T) {
 	m1["code"] = orders
 	m["order"] = m1
 	context.SetVariables(m)
-	expressionString := "#order.code[0].name=='lisi'"
+	expressionString := "${order.code[0].name=='lisi'}"
 	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 	fmt.Println("结果为：", valueContext)
 }
@@ -63,7 +63,7 @@ func TestCompound(t *testing.T) {
 	m1["code"] = m2
 	m["order"] = m1
 	context.SetVariables(m)
-	expressionString := "#order.code.num==12"
+	expressionString := "#{order.code.num==12}"
 	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 	fmt.Println("结果为：", valueContext)
 }
@@ -84,7 +84,7 @@ func TestAnd(t *testing.T) {
 	m["name"] = "lisi"
 	m["age"] = 18
 	context.SetVariables(m)
-	expressionString := "#name=='lisi' && #age>=3"
+	expressionString := "#{name=='lisi' && #age>=3}"
 	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 	fmt.Println("结果为：", valueContext)
 }
@@ -94,7 +94,7 @@ func TestGT(t *testing.T) {
 	m["name"] = "lisi"
 	m["age"] = 18
 	context.SetVariables(m)
-	expressionString := "#age>=10"
+	expressionString := "#{age>=10}"
 	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 	fmt.Println("结果为：", valueContext)
 }
@@ -105,7 +105,7 @@ func TestFloat(t *testing.T) {
 	ageFloat = 10
 	m["num"] = ageFloat
 	context.SetVariables(m)
-	expressionString := "#num>=9f"
+	expressionString := "#{num>=9f}"
 	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
 	fmt.Println("结果为：", valueContext)
 }
