@@ -463,13 +463,15 @@ func (t *Tokenizer) lexDoubleQuotedStringLiteral() {
 		t.pos++
 		ch := t.charsToProcess[t.pos]
 		if string(ch) == "\"" {
-			if string(t.charsToProcess[t.pos+1]) == "\"" {
-				t.pos++
-			} else {
-				terminated = true
+			if t.pos < t.max-1 {
+				if string(t.charsToProcess[t.pos+1]) == "\"" {
+					t.pos++
+				} else {
+					terminated = true
+				}
 			}
-
-			if t.pos == t.max-1 {
+			terminated = true
+			if t.pos == t.max {
 				panic("Cannot find terminating \" for string")
 			}
 		}
