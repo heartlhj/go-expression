@@ -89,6 +89,16 @@ func TestAnd(t *testing.T) {
 	fmt.Println("结果为：", valueContext)
 }
 
+//测试或操作
+func TestOR(t *testing.T) {
+	m["name"] = "wangwu"
+	m["age"] = 18
+	context.SetVariables(m)
+	expressionString := "#name=='lisi' || #age>=30"
+	valueContext := parser.ParseExpression(expressionString).GetValueContext(&context)
+	fmt.Println("结果为：", valueContext)
+}
+
 //测试大于等于
 func TestGT(t *testing.T) {
 	m["name"] = "lisi"

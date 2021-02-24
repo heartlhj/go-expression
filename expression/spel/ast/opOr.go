@@ -14,7 +14,7 @@ func (o *OpOr) GetValueInternal(expressionState ExpressionState) TypedValue {
 		value := BooleanTypedValue{}
 		return value.ForValue(true)
 	}
-	booleanValue := getBooleanValue(expressionState, o.getLeftOperand())
+	booleanValue := getBooleanValue(expressionState, o.getRightOperand())
 	value := BooleanTypedValue{}
 	return value.ForValue(booleanValue)
 }

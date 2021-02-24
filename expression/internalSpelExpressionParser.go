@@ -411,7 +411,7 @@ func (i *InternalSpelExpressionParser) eatLogicalOrExpression() (SpelNode, error
 	expr, _ := i.eatLogicalAndExpression()
 	var result SpelNode
 	result = expr
-	for i.peekIdentifierToken("and") || i.peekTokenOnly(SYMBOLIC_AND) {
+	for i.peekIdentifierToken("or") || i.peekTokenOnly(SYMBOLIC_OR) {
 		t := i.takeToken()
 		rhExpr, _ := i.eatRelationalExpression()
 		checkOperands(t, expr, rhExpr)
